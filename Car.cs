@@ -94,6 +94,7 @@ namespace carmono
 
         public void Die()
         {
+            position = new Vector2(50, 50);
         }
     }
 }
