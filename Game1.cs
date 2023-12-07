@@ -12,11 +12,15 @@ namespace carmono
         private SpriteBatch _spriteBatch;
         private SpriteFont font;
 
+        public int windowHeight;
+        public int windowWidth;
+
+
         public Car car;
         public List<Enemy> enemies;
 
         public int counter;
-
+        public float currentTime;
 
         public Game1()
         {
@@ -29,6 +33,9 @@ namespace carmono
         {
             car = new Car();
             enemies = new List<Enemy>() {new Enemy(), new Enemy(), new Enemy(), new Enemy(), new Enemy()};
+
+            windowHeight = _graphics.PreferredBackBufferHeight; // Get window height
+            windowWidth = _graphics.PreferredBackBufferWidth; // Get window width
 
             counter = 0;
 
@@ -50,10 +57,13 @@ namespace carmono
         protected override void Update(GameTime gameTime)
         {
 
+            currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             foreach (Enemy enemy in enemies)
             {
                 enemy.bounds = new Rectangle((int)enemy.position.X, (int)enemy.position.Y, enemy.texture.Width, enemy.texture.Height);
             }
+
             car.bounds = new Rectangle((int)car.position.X, (int)car.position.Y, car.texture.Width, car.texture.Height);
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -63,24 +73,25 @@ namespace carmono
 
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                car.Move("Right");
+                car.Move("Right", windowHeight, windowWidth);
             }
             else if (keyboardState.IsKeyDown(Keys.Left))
             {
-                car.Move("Left");
+                car.Move("Left", windowHeight, windowWidth);
             }
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                car.Move("up");
+                car.Move("up", windowHeight, windowWidth);
             }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
-                car.Move("Down");
+                car.Move("Down", windowHeight, windowWidth);
             }
             if (keyboardState.IsKeyDown(Keys.Space))
             {
                 car.Power();
             }
+
 
             foreach (var enemy in enemies)
             {
@@ -88,15 +99,17 @@ namespace carmono
                 if (enemy.position.X < -20)
                 {
                     enemy.Reset();
+
                 }
                 else
                 {
+                    enemy.SpeedUpdate(currentTime);
                     enemy.Move();
                 }
 
                 if (car.bounds.Intersects(enemy.bounds))
                 {
-                    car.position = new Vector2(0, 300);
+                    car.Die();
                     counter++;
                 }
             }
@@ -125,7 +138,6 @@ namespace carmono
 
 
             base.Draw(gameTime);
-
         }
     }
 }

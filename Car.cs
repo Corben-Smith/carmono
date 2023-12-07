@@ -13,12 +13,16 @@ namespace carmono
 {
     public class Car
     {
+        
         public Vector2 position;
         private float speed;
         public bool on;
         public Rectangle bounds;
 
         public Texture2D texture;
+
+        public static Vector2 startPosition = new Vector2(0, 0);
+
 
         public Car()
         {
@@ -50,30 +54,46 @@ namespace carmono
             texture = car.texture;
         }
 
-        public void Move(string direction)
+        public void Move(string direction, int height, int width)
         {
-            switch (direction.ToLower())
+            if (direction.ToLower() == "right")
             {
-                case "right":
+                if(position.X + speed < width - 20) 
+                {
                     position.X += speed;
-                    break;
-                case "left":
-                    position.X -= speed;
-                    break;
-                case "up":
-                    position.Y -= speed;
-                    break;
-                case "down":
-                    position.Y += speed;
-                    break;
-                default:
-                    throw new Exception("Invalid Direction");
+                }
             }
+            else if (direction.ToLower() == "left")
+            {
+                if (position.X - speed > 0)
+                {
+                    position.X -= speed;
+                }
+            }
+            else if (direction.ToLower() == "up")
+            {
+                if (position.Y + speed > 0)
+                {
+                    position.Y -= speed;
+                }
+            }
+            else if (direction.ToLower() == "down")
+            {
+                if (position.Y - speed < height - 40)
+                {
+                    position.Y += speed;
+                }
+            }
+
         }
 
         public void Power()
         {
             on = !on;
+        }
+
+        public void Die()
+        {
         }
     }
 }

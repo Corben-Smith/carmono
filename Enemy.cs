@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace carmono
 {
@@ -14,7 +15,7 @@ namespace carmono
         private Random random = new Random();
         
         public Vector2 position;
-        private float speed;
+        public float speed;
 
         public Rectangle bounds;
         public Texture2D texture;
@@ -32,6 +33,18 @@ namespace carmono
 
         public void Reset() { 
             position = new Vector2(800,random.Next(10, 500));
+        }
+
+        public void SpeedUpdate(float currentTime)
+        {
+            if (speed < 20)
+            {
+                speed += currentTime * random.NextSingle() * .005f;
+            }
+            else
+            {
+                speed -= currentTime * random.NextSingle() * .05f;
+            }
         }
     }
 }
