@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace carmono
 {
-    public class Enemy : GameObject
-    {           
-        public Enemy() : base()
+    public class Coin : GameObject
+    {
+        public Coin() : base()
         {
             speed = random.Next(8, 15);
             position = new Vector2(800, random.Next(10, 500));

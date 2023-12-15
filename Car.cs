@@ -11,46 +11,34 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace carmono
 {
-    public class Car
+    public class Car : GameObject
     {
-        
-        public Vector2 position;
-        private float speed;
-        public bool on;
-        public Rectangle bounds;
-
-        public Texture2D texture;
-
         public static Vector2 startPosition = new Vector2(0, 0);
 
 
-        public Car()
+        public Car() : base()
         {
             position = new Vector2(0,0);
             speed = 5f;
-            on = true;
             texture = null;
         }
 
-        public Car(float speed)
+        public Car(float speed) : base()
         {
             position = new Vector2(0, 0);
             this.speed = speed;
-            on = true;
         }
 
-        public Car(float posX, float posY)
+        public Car(float posX, float posY) : base()
         {
             position = new Vector2(posX, posY);
             speed = 5f;
-            on = true;
         }
 
-        public Car(Car car)
+        public Car(Car car) : base()
         {
             position = new Vector2(car.position.X, car.position.Y);
             speed = car.speed;
-            on = car.on;
             texture = car.texture;
         }
 
@@ -85,11 +73,6 @@ namespace carmono
                 }
             }
 
-        }
-
-        public void Power()
-        {
-            on = !on;
         }
 
         public void Die()
